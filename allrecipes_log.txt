@@ -1,0 +1,98 @@
+file_dir:
+/Users/amorten/Projects/RecipeSearch/RecipeFiles/Sites/AllRecipes.com/First1000
+file_name:
+directions.sorted.txt
+ingred_text:
+None
+url_domain:
+http://allrecipes.com
+url_remainder:
+None
+date_update:
+2009-05-20 18:20:57
+date_original:
+2009-05-20 18:20:57
+file_dir:
+/Users/amorten/Projects/RecipeSearch/RecipeFiles/Sites/AllRecipes.com/First1000
+file_name:
+directions.txt
+ingred_text:
+None
+url_domain:
+http://allrecipes.com
+url_remainder:
+None
+date_update:
+2009-05-20 17:55:31
+date_original:
+2009-05-20 17:55:31
+file_dir:
+/Users/amorten/Projects/RecipeSearch/RecipeFiles/Sites/AllRecipes.com/First1000
+file_name:
+ingredients.sorted.txt
+ingred_text:
+None
+url_domain:
+http://allrecipes.com
+url_remainder:
+None
+date_update:
+2009-05-20 18:20:42
+date_original:
+2009-05-20 18:20:42
+file_dir:
+/Users/amorten/Projects/RecipeSearch/RecipeFiles/Sites/AllRecipes.com/First1000
+file_name:
+ingredients.txt
+ingred_text:
+None
+url_domain:
+http://allrecipes.com
+url_remainder:
+None
+date_update:
+2009-05-20 17:55:31
+date_original:
+2009-05-20 17:55:31
+file_dir:
+/Users/amorten/Projects/RecipeSearch/RecipeFiles/Sites/AllRecipes.com/First1000
+file_name:
+recipe_parser.py
+ingred_text:
+(?P.*?)
+url_domain:
+http://allrecipes.com
+url_remainder:
+None
+date_update:
+2009-06-06 22:31:09
+date_original:
+2009-06-06 22:31:09
+file_dir:
+/Users/amorten/Projects/RecipeSearch/RecipeFiles/Sites/AllRecipes.com/First1000
+file_name:
+temp.txt
+ingred_text:
+None
+url_domain:
+http://allrecipes.com
+url_remainder:
+None
+date_update:
+2009-05-20 18:12:29
+date_original:
+2009-05-20 18:12:29
+file_dir:
+/Users/amorten/Projects/RecipeSearch/RecipeFiles/Sites/AllRecipes.com/First1000
+file_name:
+tempsorted.txt
+ingred_text:
+None
+url_domain:
+http://allrecipes.com
+url_remainder:
+None
+date_update:
+2009-05-20 18:19:40
+date_original:
+2009-05-20 18:19:40

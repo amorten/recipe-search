@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import datetime
 import sys
 import os
 import os.path
@@ -7,21 +8,37 @@ import MySQLdb
 from BeautifulSoup import BeautifulSoup, SoupStrainer
 import re
 
+from htmlxml2unicode import htmlxml2unicode
+from htmlxmlDecoder import htmlDecoder
+
+
 db = MySQLdb.connect(host="localhost",
                      user="root",
                      passwd="pwd4recDB",
-                     db="recipes")
+                     db="recipes_small",
+                     use_unicode=True)
+
+db.set_character_set('utf8')
 
 cursor = db.cursor(MySQLdb.cursors.DictCursor)
+cursor.execute('SET NAMES utf8;')
+cursor.execute('SET CHARACTER SET utf8;')
+cursor.execute('SET character_set_connection=utf8;')
 
-
-path_to_parser = '~/Projects/RecipeSearch/RecipeFiles/Sites/AllRecipes.com'
-path_to_recipes_list = [ '~/Projects/RecipeSearch/RecipeFiles/Sites/AllRecipes.com/Temp']
+path_to_parser = '/Users/amorten/Projects/RecipeSearch/RecipeFiles/Sites/AllRecipes.com/Recipes'
+path_to_recipes_list = [ '/Users/amorten/Projects/RecipeSearch/RecipeFiles/Sites/AllRecipes.com/Recipes']
 tablename = "recipes"
+logfilename = "allrecipes_log.txt"
 
+logfile = open(logfilename,"w")
 
 
 def InsertIntoDb(datachunk,tablename):
+
+    #for datarow in datachunk:
+    #    for col in range(6):
+    #        if not isinstance(datarow[col],unicode):
+    #            print datarow
         
     cursor.executemany("INSERT INTO " +tablename+" "+"""
                            (ingred_text,proced_text,
@@ -47,7 +64,8 @@ for recipe_path in path_to_recipes_list:
 
     file_list = os.listdir(recipe_path)
 
-    counter = 1
+    counter = 0
+    print counter, datetime.datetime.now()
     datachunk = []
     for f in file_list:
         counter += 1
@@ -58,19 +76,22 @@ for recipe_path in path_to_recipes_list:
         infile = open(fullfilename,"r")
         text = infile.read()
         infile.close()
-        print f
-        print 'before'
-        soup = BeautifulSoup(text,convertEntities=BeautifulSoup.ALL_ENTITIES,parseOnlyThese=onlyHeadAndBody)
-        print 'after'
+        #print f
+        #print 'before'
+        #soup = BeautifulSoup(text,convertEntities=BeautifulSoup.ALL_ENTITIES,parseOnlyThese=onlyHeadAndBody)
+        #print 'after'
+
+        text = htmlDecoder(text)[0]
+        text = htmlxml2unicode(text)
 
         file_dir = recipe_path
         file_name = f
-        ingred_text = recp.get_ingred_text(soup)
-        proced_text = recp.get_proced_text(soup)
-        url_domain = recp.get_url_domain(soup)
-        url_remainder = recp.get_url_remainder(soup,f)
-        html_title = recp.get_html_title(soup)
-        rec_name = recp.get_rec_name(soup)
+        ingred_text = recp.get_ingred_text(text)
+        proced_text = recp.get_proced_text(text)
+        url_domain = recp.get_url_domain(text)
+        url_remainder = recp.get_url_remainder(text,f)
+        html_title = recp.get_html_title(text)
+        rec_name = recp.get_rec_name(text)
         date_update = recp.get_date_update(fullfilename)
         date_original = recp.get_date_original(fullfilename)
 
@@ -85,17 +106,19 @@ for recipe_path in path_to_recipes_list:
                              date_update,date_original,
                              file_dir,file_name))
         else:
-            print 'file_dir:\n', file_dir
-            print 'file_name:\n', file_name
-            print 'ingred_text:\n', ingred_text
-            print 'url_domain:\n', url_domain
-            print 'url_remainder:\n', url_remainder
-            print 'date_update:\n', date_update
-            print 'date_original:\n', date_original
+            print >>logfile, 'file_dir:\n', file_dir
+            print >>logfile, 'file_name:\n', file_name
+            print >>logfile, 'ingred_text:\n', ingred_text
+            print >>logfile, 'url_domain:\n', url_domain
+            print >>logfile, 'url_remainder:\n', url_remainder
+            print >>logfile, 'date_update:\n', date_update
+            print >>logfile, 'date_original:\n', date_original
 
 
+        #if counter % 1 == 0:        
         if counter % 1000 == 0:
             
+            print counter, datetime.datetime.now()
             InsertIntoDb(datachunk,tablename)
             
             datachunk = []
@@ -105,3 +128,4 @@ for recipe_path in path_to_recipes_list:
 
 
 cursor.close()
+logfile.close()

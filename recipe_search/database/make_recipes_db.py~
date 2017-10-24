@@ -11,7 +11,7 @@ tablename = sys.argv[1]
 conn = MySQLdb.connect (host = "localhost",
                         user = "root",
                         passwd = "pwd4recDB",
-                        db = "Recipes")
+                        db = "recipes_small")
 
 cursor = conn.cursor()
 cursor.execute("DROP TABLE IF EXISTS "+tablename)
